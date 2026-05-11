@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_type_form_inherit_no_merge" model="ir.ui.view">
+        <field name="name">stock.picking.type.form.inherit.no.merge</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='show_operations']" position="after">
+                <field name="not_allow_merge" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="stock_picking_type_kanban_inherit_no_merge" model="ir.ui.view">
+        <field name="name">stock.picking.type.kanban.inherit.no.merge</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_kanban_manage_view')]" position="inside">
+                <div class="row" invisible="not not_allow_merge">
+                    <div class="col-12">
+                        <span class="badge badge-info">No Merge Enabled</span>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
