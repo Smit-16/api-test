@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_energy_certificate_root"
+        name="Energy Certificates"
+        sequence="10"
+        web_icon="energy_certificate,static/description/icon.png"/>
+
+    <menuitem id="menu_energy_certificate_main"
+        name="Certificates"
+        parent="menu_energy_certificate_root"
+        sequence="10"/>
+
+    <menuitem id="menu_energy_certificate_all"
+        name="All Certificates"
+        parent="menu_energy_certificate_main"
+        action="action_energy_certificate"
+        sequence="10"/>
+
+    <menuitem id="menu_energy_certificate_valid"
+        name="Valid Certificates"
+        parent="menu_energy_certificate_main"
+        action="action_energy_certificate"
+        sequence="20"/>
+
+    <menuitem id="menu_energy_certificate_expiring"
+        name="Expiring Soon"
+        parent="menu_energy_certificate_main"
+        action="action_energy_certificate"
+        sequence="30"/>
+</odoo>
