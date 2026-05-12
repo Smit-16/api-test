@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_production_lot_form_inherit_duplicate_restriction" model="ir.ui.view">
+        <field name="name">stock.lot.form.duplicate.restriction</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="duplicate" eval="False"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_production_lot_form_allow_duplicate_admin" model="ir.ui.view">
+        <field name="name">stock.lot.form.allow.duplicate.admin</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="view_production_lot_form_inherit_duplicate_restriction"/>
+        <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="duplicate">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
