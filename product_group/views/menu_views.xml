@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_product_group"
+        name="Product Groups"
+        parent="product.menu_product_category_config_product"
+        action="action_product_group"
+        sequence="10"/>
+</odoo>
