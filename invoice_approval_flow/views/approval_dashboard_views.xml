@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_pending_first_approval" model="ir.actions.act_window">
+            <field name="name">Pending First Approval</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('approval_state', '=', 'draft'), ('approval_required', '=', True), ('move_type', 'in', ['in_invoice', 'in_refund']), ('state', '=', 'draft')]</field>
+            <field name="context">{'default_move_type': 'in_invoice'}</field>
+        </record>
+
+        <record id="action_pending_cfo_approval" model="ir.actions.act_window">
+            <field name="name">Pending CFO Approval</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('approval_state', '=', 'pending_cfo'), ('move_type', 'in', ['in_invoice', 'in_refund'])]</field>
+            <field name="context">{'default_move_type': 'in_invoice'}</field>
+        </record>
+
+        <record id="action_fully_approved_invoices" model="ir.actions.act_window">
+            <field name="name">Fully Approved Invoices</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('approval_state', '=', 'fully_approved'), ('move_type', 'in', ['in_invoice', 'in_refund']), ('state', '=', 'draft')]</field>
+            <field name="context">{'default_move_type': 'in_invoice'}</field>
+        </record>
+
+    </data>
+</odoo>

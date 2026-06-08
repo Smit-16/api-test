@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_invoice_edit_request_form" model="ir.ui.view">
+            <field name="name">invoice.edit.request.form</field>
+            <field name="model">invoice.edit.request</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Edit Request">
+                    <header>
+                        <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="not can_approve" groups="invoice_approval_flow.group_invoice_edit_approver"/>
+                        <button name="action_reject" string="Reject" type="object" invisible="not can_approve" groups="invoice_approval_flow.group_invoice_edit_approver"/>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="invoice_id" readonly="1"/>
+                                <field name="requester_id" readonly="1"/>
+                                <field name="request_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="approver_id" readonly="1"/>
+                                <field name="approval_date" readonly="1"/>
+                                <field name="can_approve" invisible="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="reason" readonly="state != 'pending'"/>
+                        </group>
+                        <group string="Approval Notes" invisible="state == 'pending'">
+                            <field name="approval_notes" nolabel="1" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_invoice_edit_request_tree" model="ir.ui.view">
+            <field name="name">invoice.edit.request.tree</field>
+            <field name="model">invoice.edit.request</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice Edit Requests" decoration-info="state == 'pending'" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'">
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="requester_id"/>
+                    <field name="request_date"/>
+                    <field name="state" decoration-success="state == 'approved'" decoration-danger="state == 'rejected'" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_invoice_edit_request_search" model="ir.ui.view">
+            <field name="name">invoice.edit.request.search</field>
+            <field name="model">invoice.edit.request</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Edit Requests">
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="requester_id"/>
+                    <separator/>
+                    <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]"/>
+                    <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                    <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Requester" name="group_requester" context="{'group_by': 'requester_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_invoice_edit_request" model="ir.actions.act_window">
+            <field name="name">Invoice Edit Requests</field>
+            <field name="res_model">invoice.edit.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_pending': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No edit requests found
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

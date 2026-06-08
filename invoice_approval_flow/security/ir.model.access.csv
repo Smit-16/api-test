@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_invoice_approval_config_manager,invoice.approval.config.manager,model_invoice_approval_config,account.group_account_manager,1,1,1,1
+access_invoice_approval_config_user,invoice.approval.config.user,model_invoice_approval_config,account.group_account_invoice,1,0,0,0
+access_invoice_edit_request_user,invoice.edit.request.user,model_invoice_edit_request,account.group_account_invoice,1,1,1,0
+access_invoice_edit_request_approver,invoice.edit.request.approver,model_invoice_edit_request,group_invoice_edit_approver,1,1,1,1
