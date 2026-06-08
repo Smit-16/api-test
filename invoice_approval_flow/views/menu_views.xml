@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_invoice_approval_root"
+            name="Invoice Approvals"
+            parent="account.menu_finance"
+            sequence="50"/>
+
+        <menuitem id="menu_pending_first_approval"
+            name="Pending First Approval"
+            parent="menu_invoice_approval_root"
+            action="action_pending_first_approval"
+            sequence="10"/>
+
+        <menuitem id="menu_pending_cfo_approval"
+            name="Pending CFO Approval"
+            parent="menu_invoice_approval_root"
+            action="action_pending_cfo_approval"
+            sequence="20"/>
+
+        <menuitem id="menu_fully_approved_invoices"
+            name="Fully Approved"
+            parent="menu_invoice_approval_root"
+            action="action_fully_approved_invoices"
+            sequence="30"/>
+
+        <menuitem id="menu_invoice_edit_requests"
+            name="Edit Requests"
+            parent="menu_invoice_approval_root"
+            action="action_invoice_edit_request"
+            sequence="40"/>
+
+        <menuitem id="menu_invoice_approval_config"
+            name="Approval Configuration"
+            parent="account.menu_finance_configuration"
+            action="action_invoice_approval_config"
+            sequence="100"
+            groups="account.group_account_manager"/>
+
+    </data>
+</odoo>

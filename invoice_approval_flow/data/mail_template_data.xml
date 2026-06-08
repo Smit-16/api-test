@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="email_template_cfo_approval_request" model="mail.template">
+            <field name="name">Invoice: CFO Approval Request</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">CFO Approval Required: Invoice {{ object.name }}</field>
+            <field name="email_to">{{ ctx.get('approver').email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>CFO Approval Required</h2>
+                    <p>Dear {{ ctx.get('approver').name }},</p>
+                    <p>The following invoice requires your CFO approval:</p>
+                    <ul>
+                        <li><strong>Invoice Number:</strong> {{ object.name }}</li>
+                        <li><strong>Vendor:</strong> {{ object.partner_id.name }}</li>
+                        <li><strong>Amount:</strong> {{ format_amount(object.amount_total, object.currency_id) }}</li>
+                        <li><strong>Date:</strong> {{ object.invoice_date }}</li>
+                        <li><strong>First Approved By:</strong> {{ object.first_approver_id.name }}</li>
+                    </ul>
+                    <p>Please review and approve at your earliest convenience.</p>
+                    <p style="margin-top: 20px;">
+                        <a href="/web#id={{ object.id }}&amp;model=account.move&amp;view_type=form" style="background-color: #875A7B; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Review Invoice</a>
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_template_invoice_approved" model="mail.template">
+            <field name="name">Invoice: Fully Approved</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="subject">Invoice Approved: {{ object.name }}</field>
+            <field name="email_to">{{ object.create_uid.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>Invoice Fully Approved</h2>
+                    <p>The invoice {{ object.name }} has been fully approved and is ready for posting.</p>
+                    <ul>
+                        <li><strong>Vendor:</strong> {{ object.partner_id.name }}</li>
+                        <li><strong>Amount:</strong> {{ format_amount(object.amount_total, object.currency_id) }}</li>
+                        <li><strong>First Approved By:</strong> {{ object.first_approver_id.name }}</li>
+                        <li><strong>CFO Approved By:</strong> {{ object.cfo_approver_id.name or 'N/A' }}</li>
+                    </ul>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_template_edit_request" model="mail.template">
+            <field name="name">Invoice: Edit Request</field>
+            <field name="model_id" ref="model_invoice_edit_request"/>
+            <field name="subject">Edit Request: Invoice {{ object.invoice_id.name }}</field>
+            <field name="email_to">{{ ctx.get('approver').email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>Invoice Edit Request</h2>
+                    <p>Dear {{ ctx.get('approver').name }},</p>
+                    <p>An edit request has been submitted for invoice {{ object.invoice_id.name }}:</p>
+                    <ul>
+                        <li><strong>Requested By:</strong> {{ object.requester_id.name }}</li>
+                        <li><strong>Request Date:</strong> {{ object.request_date }}</li>
+                        <li><strong>Reason:</strong> {{ object.reason }}</li>
+                    </ul>
+                    <p style="margin-top: 20px;">
+                        <a href="/web#id={{ object.id }}&amp;model=invoice.edit.request&amp;view_type=form" style="background-color: #875A7B; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Review Request</a>
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_template_edit_request_response" model="mail.template">
+            <field name="name">Invoice: Edit Request Response</field>
+            <field name="model_id" ref="model_invoice_edit_request"/>
+            <field name="subject">Edit Request {{ object.state }}: Invoice {{ object.invoice_id.name }}</field>
+            <field name="email_to">{{ object.requester_id.email }}</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>Edit Request {{ object.state }}</h2>
+                    <p>Your edit request for invoice {{ object.invoice_id.name }} has been {{ object.state }}.</p>
+                    <ul>
+                        <li><strong>Approved/Rejected By:</strong> {{ object.approver_id.name }}</li>
+                        <li><strong>Date:</strong> {{ object.approval_date }}</li>
+                        <li><strong>Notes:</strong> {{ object.approval_notes or 'N/A' }}</li>
+                    </ul>
+                </div>
+            </field>
+        </record>
+
+        <record id="ir_sequence_invoice_edit_request" model="ir.sequence">
+            <field name="name">Invoice Edit Request</field>
+            <field name="code">invoice.edit.request</field>
+            <field name="prefix">IER/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
